@@ -1,0 +1,19 @@
+D:\ETEZAN2024\bin\Debug\ETEZAN2024.exe.config
+D:\ETEZAN2024\bin\Debug\ETEZAN2024.exe
+D:\ETEZAN2024\bin\Debug\ETEZAN2024.pdb
+D:\ETEZAN2024\bin\Debug\ar\ETEZAN2024.resources.dll
+D:\ETEZAN2024\obj\Debug\Presentation Layer.csproj.AssemblyReference.cache
+D:\ETEZAN2024\obj\Debug\ETEZAN2024.frmLoginUser.resources
+D:\ETEZAN2024\obj\Debug\ETEZAN2024.MdiParentScreen.resources
+D:\ETEZAN2024\obj\Debug\ETEZAN2024.Properties.Resources.resources
+D:\ETEZAN2024\obj\Debug\ETEZAN2024.frmLoginUser.ar.resources
+D:\ETEZAN2024\obj\Debug\Presentation Layer.csproj.GenerateResource.cache
+D:\ETEZAN2024\obj\Debug\Presentation Layer.csproj.CoreCompileInputs.cache
+D:\ETEZAN2024\obj\Debug\ar\ETEZAN2024.resources.dll
+D:\ETEZAN2024\obj\Debug\ETEZAN2024.exe
+D:\ETEZAN2024\obj\Debug\ETEZAN2024.pdb
+D:\ETEZAN2024\bin\Debug\BusinessLayeres.dll
+D:\ETEZAN2024\bin\Debug\BusinessLayeres.pdb
+D:\ETEZAN2024\obj\Debug\Presenta.B0A29D85.Up2Date
+D:\ETEZAN2024\obj\Debug\ETEZAN2024.forms.frmMainMenu.frmMainMenu.resources
+D:\ETEZAN2024\obj\Debug\ETEZAN2024.exe.config
