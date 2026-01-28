@@ -453,6 +453,16 @@ namespace ETEZAN2024.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap male1 {
+            get {
+                object obj = ResourceManager.GetObject("male1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap material_management {
             get {
                 object obj = ResourceManager.GetObject("material-management", resourceCulture);

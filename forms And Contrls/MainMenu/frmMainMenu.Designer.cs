@@ -43,6 +43,7 @@
             this.mstInventory = new System.Windows.Forms.ToolStripMenuItem();
             this.cmtProductsInventoryList = new System.Windows.Forms.ToolStripMenuItem();
             this.cmtAddProductInventory = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmtInventoryTransactionsList = new System.Windows.Forms.ToolStripMenuItem();
             this.mstManageDebts = new System.Windows.Forms.ToolStripMenuItem();
             this.cmtDebtsList = new System.Windows.Forms.ToolStripMenuItem();
             this.cmtAddDebt = new System.Windows.Forms.ToolStripMenuItem();
@@ -59,7 +60,6 @@
             this.mstrLoggedout = new System.Windows.Forms.ToolStripMenuItem();
             this.notificatoinLoginUeser = new System.Windows.Forms.NotifyIcon(this.components);
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.cmtInventoryTransactionsList = new System.Windows.Forms.ToolStripMenuItem();
             this.Main_menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -169,7 +169,7 @@
             this.mstProductsList.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.mstProductsList.Image = global::ETEZAN2024.Properties.Resources.online_shopping;
             this.mstProductsList.Name = "mstProductsList";
-            this.mstProductsList.Size = new System.Drawing.Size(214, 56);
+            this.mstProductsList.Size = new System.Drawing.Size(176, 30);
             this.mstProductsList.Text = "قائمه المنتجات";
             this.mstProductsList.Click += new System.EventHandler(this.mstProductsList_Click);
             // 
@@ -178,7 +178,7 @@
             this.cmstAddProduct.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
             this.cmstAddProduct.Image = global::ETEZAN2024.Properties.Resources.box;
             this.cmstAddProduct.Name = "cmstAddProduct";
-            this.cmstAddProduct.Size = new System.Drawing.Size(214, 56);
+            this.cmstAddProduct.Size = new System.Drawing.Size(176, 30);
             this.cmstAddProduct.Text = "اضافه منتج";
             this.cmstAddProduct.Click += new System.EventHandler(this.cmstAddProduct_Click);
             // 
@@ -199,7 +199,7 @@
             // 
             this.cmtProductsInventoryList.Image = global::ETEZAN2024.Properties.Resources.material_management;
             this.cmtProductsInventoryList.Name = "cmtProductsInventoryList";
-            this.cmtProductsInventoryList.Size = new System.Drawing.Size(294, 56);
+            this.cmtProductsInventoryList.Size = new System.Drawing.Size(260, 30);
             this.cmtProductsInventoryList.Text = "قائمة منتجات المخزن";
             this.cmtProductsInventoryList.Click += new System.EventHandler(this.cmtProductsInventoryList_Click);
             // 
@@ -208,9 +208,18 @@
             this.cmtAddProductInventory.ForeColor = System.Drawing.Color.Indigo;
             this.cmtAddProductInventory.Image = global::ETEZAN2024.Properties.Resources.warehouse;
             this.cmtAddProductInventory.Name = "cmtAddProductInventory";
-            this.cmtAddProductInventory.Size = new System.Drawing.Size(294, 56);
+            this.cmtAddProductInventory.Size = new System.Drawing.Size(260, 30);
             this.cmtAddProductInventory.Text = "اضافة منتج للمخزن";
             this.cmtAddProductInventory.Click += new System.EventHandler(this.cmtAddProductInventory_Click);
+            // 
+            // cmtInventoryTransactionsList
+            // 
+            this.cmtInventoryTransactionsList.ForeColor = System.Drawing.Color.Maroon;
+            this.cmtInventoryTransactionsList.Image = global::ETEZAN2024.Properties.Resources.checklist;
+            this.cmtInventoryTransactionsList.Name = "cmtInventoryTransactionsList";
+            this.cmtInventoryTransactionsList.Size = new System.Drawing.Size(260, 30);
+            this.cmtInventoryTransactionsList.Text = "قائمة جرد لحركات المخزون";
+            this.cmtInventoryTransactionsList.Click += new System.EventHandler(this.cmtInventoryTransactionsList_Click);
             // 
             // mstManageDebts
             // 
@@ -284,7 +293,7 @@
             // PeopleManagement_MST
             // 
             this.PeopleManagement_MST.BackColor = System.Drawing.Color.Transparent;
-            this.PeopleManagement_MST.Image = ((System.Drawing.Image)(resources.GetObject("PeopleManagement_MST.Image")));
+            this.PeopleManagement_MST.Image = global::ETEZAN2024.Properties.Resources.male1;
             this.PeopleManagement_MST.Name = "PeopleManagement_MST";
             this.PeopleManagement_MST.Size = new System.Drawing.Size(180, 54);
             this.PeopleManagement_MST.Tag = "";
@@ -373,15 +382,6 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.UseWaitCursor = true;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
-            // 
-            // cmtInventoryTransactionsList
-            // 
-            this.cmtInventoryTransactionsList.ForeColor = System.Drawing.Color.Maroon;
-            this.cmtInventoryTransactionsList.Image = global::ETEZAN2024.Properties.Resources.checklist;
-            this.cmtInventoryTransactionsList.Name = "cmtInventoryTransactionsList";
-            this.cmtInventoryTransactionsList.Size = new System.Drawing.Size(294, 56);
-            this.cmtInventoryTransactionsList.Text = "قائمة جرد لحركات المخزون";
-            this.cmtInventoryTransactionsList.Click += new System.EventHandler(this.cmtInventoryTransactionsList_Click);
             // 
             // frmMainMenu
             // 

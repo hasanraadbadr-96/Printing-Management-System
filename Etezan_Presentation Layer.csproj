@@ -540,6 +540,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="etezan.ico" />
+    <None Include="Resources\male1.png" />
     <None Include="Resources\previous.png" />
     <None Include="Resources\next-button.png" />
     <None Include="Resources\Barcode.png" />
