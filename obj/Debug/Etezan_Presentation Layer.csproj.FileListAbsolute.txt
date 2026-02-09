@@ -218,6 +218,7 @@ C:\Users\FWZ\Desktop\ETEZAN2024_C#\bin\Debug\DataAccessLayeres.pdb
 C:\Users\FWZ\Desktop\ETEZAN2024_C#\bin\Debug\BusinessLayers.pdb
 C:\Users\FWZ\Desktop\ETEZAN2024_C#\bin\Debug\DataAccessLayers.pdb
 C:\Users\FWZ\Desktop\ETEZAN2024_C#\obj\Debug\Etezan_Presentation Layer.csproj.AssemblyReference.cache
+C:\Users\FWZ\Desktop\ETEZAN2024_C#\obj\Debug\Etezan_Presentation Layer.csproj.ResolveComReference.cache
 C:\Users\FWZ\Desktop\ETEZAN2024_C#\obj\Debug\ETEZAN2024.forms_And_Contrls.CashBoxs.frmAddAndEditCashBox.resources
 C:\Users\FWZ\Desktop\ETEZAN2024_C#\obj\Debug\ETEZAN2024.forms_And_Contrls.CashBoxs.frmCashBoxsList.resources
 C:\Users\FWZ\Desktop\ETEZAN2024_C#\obj\Debug\ETEZAN2024.forms_And_Contrls.CashBoxs.frmShowCashBoxDdetials.resources
@@ -270,3 +271,6 @@ C:\Users\FWZ\Desktop\ETEZAN2024_C#\obj\Debug\ar\ETEZAN2024.resources.dll
 C:\Users\FWZ\Desktop\ETEZAN2024_C#\obj\Debug\Etezan_P.70B2211A.Up2Date
 C:\Users\FWZ\Desktop\ETEZAN2024_C#\obj\Debug\ETEZAN2024.exe
 C:\Users\FWZ\Desktop\ETEZAN2024_C#\obj\Debug\ETEZAN2024.pdb
+C:\Users\FWZ\Desktop\ETEZAN2024_C#\obj\Debug\Interop.CorelDRAW.dll
+C:\Users\FWZ\Desktop\ETEZAN2024_C#\obj\Debug\Interop.Photoshop.dll
+C:\Users\FWZ\Desktop\ETEZAN2024_C#\obj\Debug\Interop.VGCore.dll

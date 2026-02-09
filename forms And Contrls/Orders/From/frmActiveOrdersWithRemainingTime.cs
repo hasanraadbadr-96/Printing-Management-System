@@ -1,6 +1,7 @@
 ﻿using BusinessLayeres; // نستدعي طبقة الأعمال حتى نكدر نستخدم الدوال اللي تتعامل ويا البيانات
 using ETEZAN2024.forms_And_Contrls.Orders.From; // نستدعي الفورمات الخاصة بالـ Orders (شاشات عرض التفاصيل)
 using ETEZAN2024.FormsAndControls.GlobalClasses; // نستدعي الكلاسات العامة مثل clsOrderNotifier و clsGlobal
+using ETEZAN2024.Presenters.DocumentAutomationService;
 using System; // نستدعي مكتبة النظام الأساسية (تواريخ، استثناءات، الخ)
 using System.Collections.Generic; // مكتبة تحتوي أنواع مثل List و Dictionary
 using System.ComponentModel; // مكتبة خاصة بمكونات الفورم (الـ CancelEventArgs وغيرها)
@@ -160,6 +161,8 @@ namespace ETEZAN2024.forms_And_Contrls.Orders // مساحة الأسماء تن�
             byte orderStatus = 1; // نحدد كود الحالة 1 يعني "قيد التنفيذ" حسب تعريفكم
             order.CreateOrder(orderStatus); // نطلق الحدث ونمرر الحالة الجديدة حتى المشتركين يتعاملون ويحدثون الداتا ويرسلون اشعارات
             _RefreshActiveOrdersWithRemainingTimeList(); // نحدث اللستة بعد التغيير حتى ينعكس على الواجهة
+
+     
         } // نهاية الحدث ctmsOrderInProgressingNow
 
         private void ctmsPendingOrder_Click(object sender, EventArgs e)
@@ -203,6 +206,10 @@ namespace ETEZAN2024.forms_And_Contrls.Orders // مساحة الأسماء تن�
         {
 
         }
-       
+
+        private void ctmsWord_Click(object sender, EventArgs e)
+        {
+
+        }
     } // نهاية الكلاس frmActiveOrdersWithRemainingTimeList
 } // نهاية namespace

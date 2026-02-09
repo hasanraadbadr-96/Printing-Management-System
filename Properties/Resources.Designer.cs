@@ -243,6 +243,16 @@ namespace ETEZAN2024.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap corel {
+            get {
+                object obj = ResourceManager.GetObject("corel", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap crisis {
             get {
                 object obj = ResourceManager.GetObject("crisis", resourceCulture);
@@ -326,6 +336,16 @@ namespace ETEZAN2024.Properties {
         internal static System.Drawing.Bitmap EtezanLogo {
             get {
                 object obj = ResourceManager.GetObject("EtezanLogo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap excel {
+            get {
+                object obj = ResourceManager.GetObject("excel", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -563,6 +583,26 @@ namespace ETEZAN2024.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap photoshop {
+            get {
+                object obj = ResourceManager.GetObject("photoshop", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap powerpoint {
+            get {
+                object obj = ResourceManager.GetObject("powerpoint", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap previous {
             get {
                 object obj = ResourceManager.GetObject("previous", resourceCulture);
@@ -716,6 +756,26 @@ namespace ETEZAN2024.Properties {
         internal static System.Drawing.Bitmap whatsapp {
             get {
                 object obj = ResourceManager.GetObject("whatsapp", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap word {
+            get {
+                object obj = ResourceManager.GetObject("word", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap word1 {
+            get {
+                object obj = ResourceManager.GetObject("word1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

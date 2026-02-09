@@ -35,12 +35,19 @@
             this.label3 = new System.Windows.Forms.Label();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.ctmsActiveOrdersManagement = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.ctmsDetailOrder = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.ctmsOrderInProgressingNow = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmsPhotoShop = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.ctmsWord = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmsPowerPoint = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctmsExel = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.ctmsCorleDraw = new System.Windows.Forms.ToolStripMenuItem();
             this.ctmsPendingOrder = new System.Windows.Forms.ToolStripMenuItem();
-            this.cmstCompletedOrder = new System.Windows.Forms.ToolStripMenuItem();
             this.ctmsCancelOrder = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmstCompletedOrder = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.ctmsDetailOrder = new System.Windows.Forms.ToolStripMenuItem();
             this.ctmsWhatsappPerson = new System.Windows.Forms.ToolStripMenuItem();
             this.dgvAllActiveOrdersWithRemainingTime = new System.Windows.Forms.DataGridView();
             this.tbFilterValue = new System.Windows.Forms.TextBox();
@@ -112,52 +119,71 @@
             this.ctmsActiveOrdersManagement.Name = "ctmsPeopleManagement";
             this.ctmsActiveOrdersManagement.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
             this.ctmsActiveOrdersManagement.ShowCheckMargin = true;
-            this.ctmsActiveOrdersManagement.Size = new System.Drawing.Size(314, 292);
-            // 
-            // ctmsDetailOrder
-            // 
-            this.ctmsDetailOrder.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.ctmsDetailOrder.Image = global::ETEZAN2024.Properties.Resources.orders;
-            this.ctmsDetailOrder.Name = "ctmsDetailOrder";
-            this.ctmsDetailOrder.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
-            this.ctmsDetailOrder.Size = new System.Drawing.Size(313, 46);
-            this.ctmsDetailOrder.Text = "تفاصيل  الطلب";
-            this.ctmsDetailOrder.Click += new System.EventHandler(this.ctmsDetailOrder_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(310, 6);
+            this.ctmsActiveOrdersManagement.Size = new System.Drawing.Size(314, 314);
             // 
             // ctmsOrderInProgressingNow
             // 
             this.ctmsOrderInProgressingNow.ForeColor = System.Drawing.Color.Olive;
-            this.ctmsOrderInProgressingNow.Image = global::ETEZAN2024.Properties.Resources.steps;
             this.ctmsOrderInProgressingNow.Name = "ctmsOrderInProgressingNow";
             this.ctmsOrderInProgressingNow.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.N)));
             this.ctmsOrderInProgressingNow.Size = new System.Drawing.Size(313, 46);
             this.ctmsOrderInProgressingNow.Text = "تنفيذ الطلب الان";
             this.ctmsOrderInProgressingNow.Click += new System.EventHandler(this.ctmsOrderInProgressingNow_Click);
             // 
+            // ctmsPhotoShop
+            // 
+            this.ctmsPhotoShop.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(192)))));
+            this.ctmsPhotoShop.Name = "ctmsPhotoShop";
+            this.ctmsPhotoShop.Size = new System.Drawing.Size(204, 46);
+            this.ctmsPhotoShop.Text = "فوتوشوب";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(201, 6);
+            // 
+            // ctmsWord
+            // 
+            this.ctmsWord.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.ctmsWord.Name = "ctmsWord";
+            this.ctmsWord.Size = new System.Drawing.Size(204, 46);
+            this.ctmsWord.Text = "وورد";
+            this.ctmsWord.Click += new System.EventHandler(this.ctmsWord_Click);
+            // 
+            // ctmsPowerPoint
+            // 
+            this.ctmsPowerPoint.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.ctmsPowerPoint.Name = "ctmsPowerPoint";
+            this.ctmsPowerPoint.Size = new System.Drawing.Size(204, 46);
+            this.ctmsPowerPoint.Text = "باور بوينت";
+            // 
+            // ctmsExel
+            // 
+            this.ctmsExel.ForeColor = System.Drawing.Color.Green;
+            this.ctmsExel.Name = "ctmsExel";
+            this.ctmsExel.Size = new System.Drawing.Size(204, 46);
+            this.ctmsExel.Text = "الاكسيل";
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(201, 6);
+            // 
+            // ctmsCorleDraw
+            // 
+            this.ctmsCorleDraw.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+            this.ctmsCorleDraw.Name = "ctmsCorleDraw";
+            this.ctmsCorleDraw.Size = new System.Drawing.Size(204, 46);
+            this.ctmsCorleDraw.Text = "كورل درو";
+            // 
             // ctmsPendingOrder
             // 
             this.ctmsPendingOrder.ForeColor = System.Drawing.Color.Purple;
-            this.ctmsPendingOrder.Image = global::ETEZAN2024.Properties.Resources.timer1;
             this.ctmsPendingOrder.Name = "ctmsPendingOrder";
             this.ctmsPendingOrder.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.Left)));
             this.ctmsPendingOrder.Size = new System.Drawing.Size(313, 46);
             this.ctmsPendingOrder.Text = "تأجيل الطلب";
             this.ctmsPendingOrder.Click += new System.EventHandler(this.ctmsPendingOrder_Click);
-            // 
-            // cmstCompletedOrder
-            // 
-            this.cmstCompletedOrder.ForeColor = System.Drawing.Color.Teal;
-            this.cmstCompletedOrder.Image = global::ETEZAN2024.Properties.Resources.delivery;
-            this.cmstCompletedOrder.Name = "cmstCompletedOrder";
-            this.cmstCompletedOrder.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.End)));
-            this.cmstCompletedOrder.Size = new System.Drawing.Size(313, 46);
-            this.cmstCompletedOrder.Text = "اكتمل الطلب";
-            this.cmstCompletedOrder.Click += new System.EventHandler(this.cmstCompletedOrder_Click);
             // 
             // ctmsCancelOrder
             // 
@@ -169,10 +195,32 @@
             this.ctmsCancelOrder.Text = "اللغاءالطلب";
             this.ctmsCancelOrder.Click += new System.EventHandler(this.ctmsCancelOrder_Click);
             // 
+            // cmstCompletedOrder
+            // 
+            this.cmstCompletedOrder.ForeColor = System.Drawing.Color.Teal;
+            this.cmstCompletedOrder.Name = "cmstCompletedOrder";
+            this.cmstCompletedOrder.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.End)));
+            this.cmstCompletedOrder.Size = new System.Drawing.Size(313, 46);
+            this.cmstCompletedOrder.Text = "اكتمل الطلب";
+            this.cmstCompletedOrder.Click += new System.EventHandler(this.cmstCompletedOrder_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(310, 6);
+            // 
+            // ctmsDetailOrder
+            // 
+            this.ctmsDetailOrder.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
+            this.ctmsDetailOrder.Name = "ctmsDetailOrder";
+            this.ctmsDetailOrder.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.D)));
+            this.ctmsDetailOrder.Size = new System.Drawing.Size(313, 46);
+            this.ctmsDetailOrder.Text = "تفاصيل  الطلب";
+            this.ctmsDetailOrder.Click += new System.EventHandler(this.ctmsDetailOrder_Click);
+            // 
             // ctmsWhatsappPerson
             // 
             this.ctmsWhatsappPerson.ForeColor = System.Drawing.Color.Green;
-            this.ctmsWhatsappPerson.Image = global::ETEZAN2024.Properties.Resources.whatsapp;
             this.ctmsWhatsappPerson.Name = "ctmsWhatsappPerson";
             this.ctmsWhatsappPerson.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.W)));
             this.ctmsWhatsappPerson.Size = new System.Drawing.Size(313, 46);
@@ -227,7 +275,6 @@
             // 
             // pBoxProductInventories
             // 
-            this.pBoxProductInventories.BackgroundImage = global::ETEZAN2024.Properties.Resources.deadline;
             this.pBoxProductInventories.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.pBoxProductInventories.Location = new System.Drawing.Point(336, 2);
             this.pBoxProductInventories.Name = "pBoxProductInventories";
@@ -285,5 +332,12 @@
         private System.Windows.Forms.ToolStripMenuItem ctmsOrderInProgressingNow;
         private System.Windows.Forms.Label lblNearestBooking;
         private System.Windows.Forms.ToolStripMenuItem cmstCompletedOrder;
+        private System.Windows.Forms.ToolStripMenuItem ctmsPhotoShop;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem ctmsWord;
+        private System.Windows.Forms.ToolStripMenuItem ctmsPowerPoint;
+        private System.Windows.Forms.ToolStripMenuItem ctmsExel;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripMenuItem ctmsCorleDraw;
     }
 }
