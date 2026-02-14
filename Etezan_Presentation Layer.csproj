@@ -693,6 +693,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\EtezanPrinting_Shared\EtezanPrinting_Shared.csproj">
+      <Project>{68358e3d-7964-4f66-8b0b-a9f519fa3230}</Project>
+      <Name>EtezanPrinting_Shared</Name>
+    </ProjectReference>
     <ProjectReference Include="C:\Users\FWZ\source\repos\BusinessLayeres\Etezan_BusinessLayer.csproj">
       <Project>{33f1b43c-4fdb-4054-a762-5ab9bad5731a}</Project>
       <Name>Etezan_BusinessLayer</Name>

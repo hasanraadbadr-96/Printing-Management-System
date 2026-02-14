@@ -1,6 +1,7 @@
 ﻿using BusinessLayeres; // نستدعي طبقة الـ Business حتى نستخدم كلاس الأشخاص clsPersons.
 using ETEZAN2024.forms_And_Contrls.Persons.form; // نستدعي فورمات الأشخاص (مثل frmAddAndUpdate).
 using ETEZAN2024.Presenters;
+using EtezanPrinting_Shared.PersonDTO;
 using System; // مكتبة الأساسيات.
 using System.Collections.Generic; // مكتبة القوائم.
 using System.ComponentModel; // مكتبة خصائص الكومبوننت.
@@ -16,6 +17,7 @@ namespace ETEZAN2024.forms.Persons // مساحة الاسم الخاصة بال�
 {
     public partial class frmPersonsList : Form // تعريف الفورم frmPersonsList يرث من Form.
     {
+        clsPersons person = new clsPersons();
         public frmPersonsList() // كونستركتر للفورم.
         {
             InitializeComponent(); // يهيئ مكونات الفورم (الأدوات).
@@ -29,25 +31,47 @@ namespace ETEZAN2024.forms.Persons // مساحة الاسم الخاصة بال�
         private DataView _dvPersonsList; // View للجدول حتى نطبق عليه الفلاتر.
         private clsPersonPresenters _PersonPresenter; // كائن من كلاس العروض.
         private int _RowsNumber = 10; // عدد الصفوف لكل صفحة.
-        // دالة لتحميل صفحة من الأشخاص.
+                                      // دالة لتحميل صفحة من الأشخاص.
+
         private void LoadPersonsPage(int StartPersonID, int rowsNumber, string direction)
         {
-            DataView dv = _PersonPresenter.LoadPersonsPaged(StartPersonID, rowsNumber, direction);
+            // 1. جلب البيانات من البرزنتير
+            List<PersonDTO> personsList = _PersonPresenter.LoadPersonsPaged(StartPersonID, rowsNumber, direction);
 
-            if (dv == null || dv.Count == 0)
+            // 2. التحقق من وجود بيانات لتجنب الـ NullReference
+            if (personsList == null || personsList.Count == 0)
             {
                 MessageBox.Show("لا توجد بيانات لعرضها", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
-            dgvAllPersons.DataSource = dv;
-            lbPersonsCount.Text = dgvAllPersons.Rows.Count.ToString();
+            // 3. خزن البيانات في المتغير العام حتى نكدر نفلترها لاحقاً بالكومبو بوكس
+            _mainPersonsList = personsList;
 
+            // 4. ربط القائمة بالـ DataGridView
+            dgvAllPersons.DataSource = null; // تصفير القديم لضمان التحديث
+            dgvAllPersons.DataSource = _mainPersonsList;
+
+            // 5. --- مرحلة التعريب (Professional Localization) ---
+            dgvAllPersons.Columns["personID"].HeaderText = "رقم المعرف";
+            dgvAllPersons.Columns["full_name"].HeaderText = "الاسـم الكامل";
+            dgvAllPersons.Columns["phone_number"].HeaderText = "رقم الهاتف";
+            dgvAllPersons.Columns["order_count"].HeaderText = "عدد الطلبات";
+            dgvAllPersons.Columns["address"].HeaderText = "العنوان";
+            dgvAllPersons.Columns["gendor"].HeaderText = "الجنس";
+            dgvAllPersons.Columns["notes"].HeaderText = "ملاحظات";
+
+            // 6. --- مرحلة تنظيف الواجهة (UI Cleaning) ---
+            // نخفي الأعمدة اللي ما يحتاجها الموظف بس يحتاجها المبرمج
+            if (dgvAllPersons.Columns.Contains("city_id")) dgvAllPersons.Columns["city_id"].Visible = false;
+            if (dgvAllPersons.Columns.Contains("persons_status_id")) dgvAllPersons.Columns["persons_status_id"].Visible = false;
+            if (dgvAllPersons.Columns.Contains("ImagePath")) dgvAllPersons.Columns["ImagePath"].Visible = false;
+
+            // 7. تحديث العداد وتفعيل الأدوات
+            lbPersonsCount.Text = personsList.Count.ToString();
             ctmsPersonsManagement.Enabled = true;
             cmboFilterBY.Enabled = true;
         }
-
-
 
 
 
@@ -77,22 +101,13 @@ namespace ETEZAN2024.forms.Persons // مساحة الاسم الخاصة بال�
 
         private void _FillComboBox()
         {
-            cmboFilterBY.Items.Clear(); // الأفضل تنظيف العناصر قبل الإضافة
+            cmboFilterBY.Items.Clear();
             cmboFilterBY.Items.Add("لاشئ");
-
-            if (dgvAllPersons.DataSource == null)
-                return; // لا شيء لملئه إذا لم يكن هناك مصدر بيانات
-
-            _dtPersonsList = dgvAllPersons.DataSource as DataTable;
-            if (_dtPersonsList == null)
-                return; // تحقق أن التحويل ناجح
-
-            foreach (DataColumn column in _dtPersonsList.Columns)
-            {
-                cmboFilterBY.Items.Add(column.ColumnName);
-            }
+            cmboFilterBY.Items.Add("رقم المعرف");
+            cmboFilterBY.Items.Add("الاسـم");
+            cmboFilterBY.Items.Add("رقم الهاتف");
+            cmboFilterBY.Items.Add("عدد الطلبات");
         }
-
         private void _LoadData() // دالة تحميل البيانات الأساسية للفورم.
         {
             _LoadPersonsPagedPresenters(); // نعرض كل الأشخاص.
@@ -100,53 +115,41 @@ namespace ETEZAN2024.forms.Persons // مساحة الاسم الخاصة بال�
             cmboFilterBY.SelectedIndex = 0; // نخلي الافتراضي "لاشئ".
         }
 
-        private void _ApllyPersonFillter(string FilterValue) // دالة تطبيق الفلترة.
+        private List<PersonDTO> _mainPersonsList; // قائمة البيانات الأصلية
+
+        private void _ApplyPersonFilter(string FilterValue)
         {
-            if (string.IsNullOrEmpty(FilterValue) && _FilterColumn == "لاشئ") // إذا ماكو فلتر وما مختارين عمود.
+            // إذا كان البحث فارغاً، نعيد عرض القائمة الأصلية كاملة
+            if (string.IsNullOrEmpty(FilterValue) || _FilterColumn == "لاشئ")
             {
-                tbFilterValue.Visible = false; // نخفي حقل البحث.
-                _LoadPersonsPagedPresenters(); // نعرض كل الأشخاص من جديد.
+                dgvAllPersons.DataSource = _mainPersonsList;
                 return;
             }
 
-            _dtPersonsList = clsPersons.GetAllPersonsList(); // نجيب الأشخاص من جديد.
-            _dvPersonsList = new DataView(_dtPersonsList); // نخليهم بـ DataView حتى نفلتر.
+            // فلترة القائمة باستخدام LINQ حسب الخيار المختار في الكومبو بوكس
+            IEnumerable<PersonDTO> filteredData;
 
-            switch (_FilterColumn) // نتحقق أي عمود مختارين.
+            switch (_FilterColumn)
             {
-                case "رقم المعرف": // إذا بحثنا بالـ ID.
-                    {
-                        int number;
-                        if (int.TryParse(FilterValue, out number)) // نحاول نحوله رقم.
-                        {
-                            tbFilterValue.Visible = true; // نظهر خانة البحث.
-                            _dvPersonsList.RowFilter = $"[{_FilterColumn}] = {number}"; // نفلتر على الرقم.
-                            lbPersonsCount.Text = _dvPersonsList.Count.ToString(); // نعرض العدد.
-                        }
-                        break;
-                    }
-                case "عدد الطلبات": // إذا بحثنا بعدد الطلبات.
-                    {
-                        int number;
-                        if (int.TryParse(FilterValue, out number)) // إذا هو رقم.
-                        {
-                            tbFilterValue.Visible = true;
-                            _dvPersonsList.RowFilter = $"[{_FilterColumn}] = {number}"; // فلترة على العدد.
-                            lbPersonsCount.Text = _dvPersonsList.Count.ToString();
-                        }
-                        break;
-                    }
-                default: // أي عمود ثاني نصي.
-                    {
-                        tbFilterValue.Visible = true;
-                        _dvPersonsList.RowFilter = $"[{_FilterColumn}] LIKE '{FilterValue}%'"; // نفلتر نص يبدأ بالقيمة.
-                        lbPersonsCount.Text = _dvPersonsList.Count.ToString();
-                        break;
-                    }
+                case "رقم المعرف":
+                    filteredData = _mainPersonsList.Where(p => p.personID.ToString().StartsWith(FilterValue));
+                    break;
+                case "الاسـم":
+                    filteredData = _mainPersonsList.Where(p => p.full_name.ToLower().Contains(FilterValue.ToLower()));
+                    break;
+                case "رقم الهاتف":
+                    filteredData = _mainPersonsList.Where(p => p.phone_number.Contains(FilterValue));
+                    break;
+                case "عدد الطلبات":
+                    filteredData = _mainPersonsList.Where(p => p.order_count.ToString() == FilterValue);
+                    break;
+                default:
+                    filteredData = _mainPersonsList;
+                    break;
             }
-            dgvAllPersons.DataSource = _dvPersonsList; // نعرض النتيجة بالـ DataGridView.
-        }
 
+            dgvAllPersons.DataSource = filteredData.ToList();
+        }
         private void frmPersonsManagement_Load(object sender, EventArgs e) // لما يشتغل الفورم.
         {
             _LoadData(); // نحمل البيانات.
@@ -188,7 +191,7 @@ namespace ETEZAN2024.forms.Persons // مساحة الاسم الخاصة بال�
             _PersonID = (int)dgvAllPersons.CurrentRow.Cells[0].Value; // ناخذ ID الشخص.
             if (MessageBox.Show("هل انت متاكد من حذف هذا الشخص", "حذف", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                if (clsPersons.DeletePersonById(_PersonID)) // إذا نجح الحذف.
+                if (person.DeletePersonById(_PersonID)) // إذا نجح الحذف.
                 {
                     _LoadPersonsPagedPresenters();
                 }
@@ -229,7 +232,7 @@ namespace ETEZAN2024.forms.Persons // مساحة الاسم الخاصة بال�
 
         private void tbFilterValue_TextChanged(object sender, EventArgs e) // إذا تغير النص بحقل البحث.
         {
-            _ApllyPersonFillter(tbFilterValue.Text); // نطبق الفلترة حسب القيمة.
+            _ApplyPersonFilter(tbFilterValue.Text); // نطبق الفلترة حسب القيمة.
         }
 
 
@@ -245,43 +248,38 @@ namespace ETEZAN2024.forms.Persons // مساحة الاسم الخاصة بال�
             // تحديث عداد الأشخاص بالعدد الجديد
         }
 
-        private void PboxPrevious_Click(object sender, EventArgs e)
+
+private void PboxPrevious_Click(object sender, EventArgs e)
+    {
+        // 1. التأكد أن الجدول ليس فارغاً
+        if (dgvAllPersons.Rows.Count == 0)
         {
-            // أول شي نتأكد أن الـ DataGridView فيه صفوف
-            if (dgvAllPersons.Rows.Count == 0)
-            {
-                MessageBox.Show("لا توجد بيانات للعرض");
-                return;
-            }
-
-            // ناخذ أول معرف من الصفحة الحالية
-            int firstPersonID;
-            if (dgvAllPersons.Rows[0].Cells[0].Value == null)
-            {
-                MessageBox.Show("الصف الأول فارغ");
-                return;
-            }
-            firstPersonID = Convert.ToInt32(dgvAllPersons.Rows[0].Cells[0].Value);
-
-            // جلب الصفحة السابقة
-            DataView dv = _PersonPresenter.LoadPersonsPaged(firstPersonID, _RowsNumber, "Previous");
-
-            // تحقق إذا رجعت بيانات
-            if (dv == null || dv.Count == 0)
-            {
-                MessageBox.Show("وصلت لبداية للصفحة الاولى", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                return;
-            }
-
-            // تحويل إلى DataTable وترتيب تصاعدي
-            DataTable dt = dv.ToTable();
-            DataView dvSorted = dt.DefaultView;
-            dvSorted.Sort = "[رقم المعرف] ASC";
-
-            dgvAllPersons.DataSource = dvSorted.ToTable();
+            MessageBox.Show("لا توجد بيانات للعرض");
+            return;
         }
 
+        // 2. الوصول لأول ID في الصفحة الحالية
+        // بما أن الـ DataSource أصبح List، الوصول للقيم صار أسهل وأضمن
+        int firstPersonID = ((PersonDTO)dgvAllPersons.Rows[0].DataBoundItem).personID;
+
+        // 3. طلب البيانات السابقة من البرزنتير (يرجع List حالياً)
+        List<PersonDTO> previousList = _PersonPresenter.LoadPersonsPaged(firstPersonID, _RowsNumber, "Previous");
+
+        // 4. التحقق من وجود بيانات
+        if (previousList == null || previousList.Count == 0)
+        {
+            MessageBox.Show("وصلت لبداية الصفحة الأولى", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return;
+        }
+
+        // 5. الترتيب باستخدام LINQ (بدل دوخة الـ DataView والـ Sort)
+        // نقوم بترتيب القائمة تصاعدياً حسب الـ ID لضمان عرضها بشكل صحيح
+        var sortedList = previousList.OrderBy(p => p.personID).ToList();
+
+        // 6. عرض البيانات وتحديث العداد
+        dgvAllPersons.DataSource = sortedList;
+        lbPersonsCount.Text = sortedList.Count.ToString();
     }
+}
 
 }

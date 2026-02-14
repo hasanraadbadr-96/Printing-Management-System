@@ -274,3 +274,5 @@ C:\Users\FWZ\Desktop\ETEZAN2024_C#\obj\Debug\ETEZAN2024.pdb
 C:\Users\FWZ\Desktop\ETEZAN2024_C#\obj\Debug\Interop.CorelDRAW.dll
 C:\Users\FWZ\Desktop\ETEZAN2024_C#\obj\Debug\Interop.Photoshop.dll
 C:\Users\FWZ\Desktop\ETEZAN2024_C#\obj\Debug\Interop.VGCore.dll
+C:\Users\FWZ\Desktop\ETEZAN2024_C#\bin\Debug\EtezanPrinting_Shared.dll
+C:\Users\FWZ\Desktop\ETEZAN2024_C#\bin\Debug\EtezanPrinting_Shared.pdb

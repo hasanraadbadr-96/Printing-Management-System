@@ -35,7 +35,7 @@ namespace ETEZAN2024.forms.Persons
         enMode _mode; // يخزن وضع الفورم الحالي (إضافة أو تعديل)
         private int _personID; // رقم الشخص
         private clsPersons _persons; // كائن من كلاس الأشخاص
-
+        clsPersons Person = new clsPersons();
         public frmAddAndUpdatePerson() // كونستركتر للإضافة
         {
             InitializeComponent(); // تحميل العناصر
@@ -49,33 +49,49 @@ namespace ETEZAN2024.forms.Persons
             _mode = enMode.Update; // وضع الفورم تعديل
         }
 
-        private bool _HandlePersonImageSimple() // دالة لحفظ الصورة في مجلد محلي
+        private bool _HandlePersonImageSimple()
         {
-            if (pBoxPerson.ImageLocation == null) // إذا ما مختار صورة
+            // 1. إذا المستخدم ما مختار صورة أصلاً، نطلع ونعتبر الأمور تمام
+            if (string.IsNullOrEmpty(pBoxPerson.ImageLocation))
                 return true;
 
-            string newImagePath = pBoxPerson.ImageLocation; // مسار الصورة الأصلي
+            // 2. إذا الصورة هي نفسها المحفوظة سابقاً بالمشروع (ما غيرها المستخدم)، نطلع
+            string imagesFolder = Path.Combine(Application.StartupPath, "Images");
+            if (pBoxPerson.ImageLocation.StartsWith(imagesFolder))
+            {
+                return true;
+            }
+
+            // 3. التجهيز: نحدد المسار والمجلد
+            string sourceFile = pBoxPerson.ImageLocation;
+            string ext = Path.GetExtension(sourceFile); // الامتداد (.jpg, .png)
+
+            // نتأكد المجلد موجود
+            if (!Directory.Exists(imagesFolder))
+                Directory.CreateDirectory(imagesFolder);
+
+            // 4. السحر هنا: نعطي الصورة اسم جديد يعتمد على الوقت الحالي
+            // مثلاً الصورة راح يصير اسمها: Image_20240212103055.jpg
+            // هذا يضمن أن الاسم مستحيل يتكرر، فالويندوز ما راح يعترض أبداً
+            string newName = "Img_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ext;
+            string destFile = Path.Combine(imagesFolder, newName);
 
             try
             {
-                string folderPath = Application.StartupPath + @"\Images\"; // مجلد الصور داخل المشروع
-                if (!Directory.Exists(folderPath))
-                    Directory.CreateDirectory(folderPath); // إذا ماكو مجلد ننشئه
+                // 5. ننسخ الصورة للمسار الجديد
+                File.Copy(sourceFile, destFile, true);
 
-                string fileName = Path.GetFileName(newImagePath); // نجيب اسم الصورة
-                string destPath = Path.Combine(folderPath, fileName); // المسار الجديد
-                File.Copy(newImagePath, destPath, true); // نسخ الصورة
+                // 6. نمسح الصورة القديمة من المتغير (اختياري للنظافة) ونخلي الجديد
+                pBoxPerson.ImageLocation = destFile;
 
-                pBoxPerson.ImageLocation = destPath; // عرض الصورة من المسار الجديد
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
-                MessageBox.Show("ما قدرنا ننسخ الصورة", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("صار خطأ بنسخ الصورة: " + ex.Message);
                 return false;
             }
         }
-
         private void _FillComboBoxByCitiesList() // ملئ الكومبو بكس بالمدن
         {
             cmbCities.DataSource = clsCities.GetAllCitiesList(); // مصدر البيانات
@@ -177,58 +193,58 @@ namespace ETEZAN2024.forms.Persons
 
         private void btnSave_Click(object sender, EventArgs e) // زر الحفظ
         {
-            if (!this.ValidateChildren()) // التحقق من المدخلات
+            // 1. السيطرة النوعية: نشيك الحقول قبل ما نتحرك
+            if (!this.ValidateChildren())
             {
-                MessageBox.Show("بعض الحقول غير صحيحة!, ضع الماوس فوق الأيقونة الحمرة لترئ الخطأ", "خطاء ادخال", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("بعض الحقول غير صحيحة!, ضع الماوس فوق الأيقونة الحمراء لترى الخطأ", "خطأ إدخال", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
+            // 2. سحب البيانات من الواجهة (UI) صبها في الكائن (Object Mapping)
             int cityID = (cmbCities.SelectedValue != null) ? Convert.ToInt32(cmbCities.SelectedValue) : 0;
+
             _persons.city_id = cityID;
             _persons.full_name = tbFullName.Text.Trim();
             _persons.notes = tbNotes.Text.Trim();
             _persons.phone_number = tbPhone.Text.Trim();
-
-          
-              
-       
-
-            _persons.ImagePath = pBoxPerson.ImageLocation;
             _persons.address = tbAddress.Text.Trim();
+            _persons.ImagePath = pBoxPerson.ImageLocation; // خزن مسار الصورة
 
-            // إذا الطلبات أقل من 3 نخليه Active مثلاً
-            if (_persons.order_count < 3)
-                _persons.persons_status_id = 1;
-            else
-                _persons.persons_status_id = 2;
+            // 3. تحديد الجنس (Gender)
+            _persons.gendor = rbMale.Checked ? "ذكر" : "أنثى";
 
-            if (rbMale.Checked)
-                _persons.gendor = "ذكر";
-            else
-                _persons.gendor = "انثئ";
+            // 4. منطق "مطبعة الاتزان" للطلبات والحالة
             if (_mode == enMode.Add)
             {
-                // في حالة الإضافة نخلي عدد الطلبات صفر
-                _persons.order_count = 0;
-            }
-            else {
-                // في حالة التعديل نخلي عدد الطلبات كما هو
-                _persons.order_count = _persons.order_count;
-            }
-            if (_persons.Save()) // إذا الحفظ نجح
-            {
-                lbPersonID.Text = _persons.personID.ToString();
-                lbAddAndEdit1.Text = "تعديل شخص";
-                _mode = enMode.Update;
-                DataBack?.Invoke(this, _persons.personID); // نرجع الرقم للفورم اللي ناداه
-                MessageBox.Show("تم حفظ معلومات هذا الشخص", "حفظ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                _persons.order_count = 0; // الزبون الجديد يبدي من الصفر
+                _persons.persons_status_id = 1; // حالة "جديد" أو "نشط"
             }
             else
             {
-                MessageBox.Show(" لم يتم حفظ معلومات هذا الشخص", "خطاء", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // بالتعديل، نحافظ على عدد طلباته السابقة
+                // والحالة تتحدث تلقائياً حسب عدد طلباته (مثل ما سويت إنت بالفكر الذكي)
+                _persons.persons_status_id = (_persons.order_count < 3) ? 1 : 2;
+            }
+
+            // 5. لحظة الحقيقة: استدعاء دالة الـ Save الذكية
+            // الـ Save هي اللي راح تقرر تروح لـ _AddNewPerson لو _UpdatePerson بناءً على الـ Mode
+            if (_persons.Save())
+            {
+                // إذا نجح الحفظ، نحدث الواجهة
+                lbPersonID.Text = _persons.personID.ToString();
+                lbAddAndEdit1.Text = "تعديل معلومات الشخص";
+                _mode = enMode.Update; // نحول الوضعية لتعديل حتى إذا ضغط حفظ مرة ثانية ما يكرر الإدخال
+
+                // نرجع الـ ID للفورم الأساسي (مثل قائمة الزبائن) حتى تتحدث القائمة
+                DataBack?.Invoke(this, _persons.personID);
+
+                MessageBox.Show("تم حفظ معلومات الشخص بنجاح في قاعدة بيانات مطبعة الاتزان", "نجاح الحفظ", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("عذراً، لم يتم حفظ البيانات. ", "فشل الحفظ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void lnkDeletePhoto_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             pBoxPerson.ImageLocation = "";

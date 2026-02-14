@@ -9,7 +9,7 @@ using System.Linq; // مكتبة LINQ.
 using System.Text; // مكتبة النصوص.
 using System.Threading.Tasks; // مكتبة العمليات غير المتزامنة.
 using System.Windows.Forms; // مكتبة تصميم الواجهات Windows Forms.
-
+using EtezanPrinting_Shared.PersonDTO;
 namespace ETEZAN2024.Presenters
 {
     public class clsPersonPresenters
@@ -21,16 +21,18 @@ namespace ETEZAN2024.Presenters
             _Person = new clsPersons();
         }
 
-        public DataView LoadPersonsPaged(int lastPersonID, int rowsNumber, string direction)
-        {
-            // جلب الأشخاص الذين لديهم PersonID أكبر من آخر شخص تم عرضه
-            DataTable data = _Person.GetPersonsPaged(lastPersonID, rowsNumber,  direction);
 
-            if (data == null || data.Rows.Count == 0)
-                return null; // لا توجد بيانات
+public List<PersonDTO> LoadPersonsPaged(int lastPersonID, int rowsNumber, string direction)
+    {
+        // استدعاء الدالة التي ترجع قائمة (List)
+        List<PersonDTO> personsList = _Person.GetPersonsPaged(lastPersonID, rowsNumber, direction);
 
-            return new DataView(data);
-        }
+        // إذا القائمة فارغة أو نل، نرجع نل
+        if (personsList == null || personsList.Count == 0)
+            return null;
 
+        return personsList;
     }
+
+}
 }

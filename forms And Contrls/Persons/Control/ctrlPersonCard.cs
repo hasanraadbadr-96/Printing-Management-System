@@ -2,6 +2,7 @@
 using DVLD_ProjecteForms.FORMS; // نستدعي الفورمات الخاصة بالمشروع
 using ETEZAN2024.forms.Persons; // نستدعي النماذج الخاصة بالاشخاص
 using ETEZAN2024.Properties; // نستدعي الموارد Resources مثل الصور
+using Microsoft.Office.Interop.Word;
 using System; // مكتبة الاساسيات
 using System.Collections.Generic; // مكتبة القوائم
 using System.ComponentModel; // حتى نستخدم خصائص التحكم مثل خاصية التصميم
@@ -16,6 +17,8 @@ namespace ETEZAN2024.forms_And_Contrls.Persons.Control // مساحة الاسم 
 {
     public partial class ctrlPersonCard : UserControl // تعريف كنترول مخصص يرث من UserControl
     {
+        clsPersons Person = new clsPersons();
+
         private int _PersonID; // متغير يخزن رقم الشخص
         private clsPersons _Persons; // كائن من كلاس الاشخاص حتى نخزن بيانات الشخص
 

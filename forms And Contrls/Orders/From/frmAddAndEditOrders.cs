@@ -13,6 +13,8 @@ namespace ETEZAN2024.forms_And_Contrls.Orders // مساحة الاسم الخا�
 {
     public partial class frmAddAndEditOrders : Form // تعريف كلاس الفورم الرئيسي للطلبات
     {
+        clsPersons Person = new clsPersons();
+
         public enum enMode // تعريف enum يحتوي وضعين: اضافة وتحديث
         {
             Add = 1, // وضع اضافة
