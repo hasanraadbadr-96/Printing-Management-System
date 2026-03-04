@@ -1,6 +1,0 @@
-@EtezanPrinting_WebAPI_HostAddress = http://localhost:5023
-
-GET {{EtezanPrinting_WebAPI_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
