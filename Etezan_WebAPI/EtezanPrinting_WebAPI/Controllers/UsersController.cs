@@ -1,5 +1,6 @@
 ﻿using BusinessLayeres;
 using EtezanPrinting_Shared.UsersDTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
@@ -8,6 +9,7 @@ namespace EtezanPrinting_WebAPI.Controllers
 {
     [Route("api/Users")]
     [ApiController]
+    [Authorize] // <--- هذا هو النقص! هسة الـ UsersController صار محمي وما يفتح إلا بتوكن
     public class UsersController : ControllerBase
     {
         UsersDTO usersDTO = new UsersDTO();

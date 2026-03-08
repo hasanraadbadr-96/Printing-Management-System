@@ -37,25 +37,42 @@ namespace ETEZAN2024 // مساحة الأسماء الرئيسية للمشرو�
             InitializeComponent(); // تهيئة مكونات الفورم (الأزرار, التكست, إلخ)
         }
 
-        private void _AddNewLoginLogToDB(clsLoginLogs log) // دالة تضيف تسجيل دخول جديد للقاعدة
+        private void _AddNewLoginLogToDB(clsLoginLogs log)
         {
-            
-            log = new clsLoginLogs(); // ننشئ كائن جديد من clsLoginLogs يمثل السجل الجديد
-
-            log.username = clsGlobal.CurrentUser.UserName; // نحط اسم المستخدم الحالي
-            log.phone_number = clsGlobal.CurrentUser.PersonInfo.phone_number; // نحط رقم الموبايل مالت المستخدم
-            log.LoginPermissionCode = "77"; // نحط رمز صلاحية الدخول (تقدر تغيره حسب النظام)
-            log.UsersPermissionID = 2; // نحط رقم صلاحية المستخدم (مثال: 2 = مستخدم عادي)
-            log.loginDate = DateTime.Now; // نحط الوقت الحالي كتاريخ تسجيل الدخول
-            log.usersId = clsGlobal.CurrentUser.UserID; // نحط الـ ID مال المستخدم الحالي
-
-            if (!log.Save()) // نحاول نحفظ السجل بالقاعدة، إذا فشل نعرض رسالة
+            // 1. فحص أولي: إذا المستخدم الحالي فارغ، لا تحاول الوصول لخصائصه
+            if (clsGlobal.CurrentUser == null)
             {
-                MessageBox.Show("لم يتم حفظ عملية تسجيل الدخول", "خطاء", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                // رسالة خطأ للمستخدم تقول السجل ما انحفظ
+                // إذا لسبب ما الكرنت يوزر نال، نستخدم الـ _user اللي عرفناه فوك بالفورم
+                if (_user != null)
+                    clsGlobal.CurrentUser = _user;
+                else
+                    return; // إذا الاثنين نال، نطلع حتى لا يضرب البرنامج
+            }
+
+            log = new clsLoginLogs();
+
+            log.username = clsGlobal.CurrentUser.UserName;
+
+            // فحص الـ PersonInfo: أحياناً يكون نال إذا ما مسوي له Find بالبزنس
+            if (clsGlobal.CurrentUser.PersonInfo != null)
+            {
+                log.phone_number = clsGlobal.CurrentUser.PersonInfo.phone_number;
+            }
+            else
+            {
+                log.phone_number = "N/A"; // قيمة افتراضية حتى لا يضرب
+            }
+
+            log.LoginPermissionCode = "77";
+            log.UsersPermissionID = 2;
+            log.loginDate = DateTime.Now;
+            log.usersId = clsGlobal.CurrentUser.UserID;
+
+            if (!log.Save())
+            {
+                MessageBox.Show("لم يتم حفظ عملية تسجيل الدخول", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
 
         // رسالة ترحيب
         private void _Noitifcatoin_WelcomeUser()
@@ -92,41 +109,44 @@ namespace ETEZAN2024 // مساحة الأسماء الرئيسية للمشرو�
         // التشييك على الدخول
         private bool _CheckLogin()
         {
-            bool IsLogin = false; // نفرض بالبداية الدخول فاشل
-            string enteredPassword = clsPasswordHasher.HashPassword(maskedTboxPasswerd.Text.Trim());// تشفير كلمة المرور المدخلة قبل المقارنة
+            bool IsLogin = false;
 
-            _user = clsUsers.FindUserByUserNameAndPassword(TboxUserName.Text.Trim(),  enteredPassword ); // نحاول نلقى المستخدم
+            // 1. نبحث عن المستخدم بالاسم فقط أولاً (لأن BCrypt يحتاج الهاش المخزن للمقارنة)
+            _user = clsUsers.FindUserByUserName(TboxUserName.Text.Trim());
 
-            if (_user != null) // إذا لكينا المستخدم
+            // 2. التحقق من كلمة المرور (هنا ضفنا مال التشفير اللي سويته)
+            // نستخدم VerifyPassword اللي تقارن النص الصافي ويه الهاش المخزن
+            if (_user != null && clsPasswordHasher.VerifyPassword(maskedTboxPasswerd.Text.Trim(), _user.Password))
             {
-                if (!_user.isActive) // إذا المستخدم غير نشط
+                if (!_user.isActive)
                 {
                     IsLogin = false;
-                    MessageBox.Show(" هذا المستخدم غير نشط اوفعال لا يسمح له بدخو النضام ", "خطاء", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(" هذا المستخدم غير نشط اوفعال لا يسمح له بدخول النظام ", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
                 else
                 {
-                    clsGlobal.CurrentUser = _user; // نخزن المستخدم الحالي بالكلاس العام
-                    _ProgressBarLogin(true); // شريط التقدم = ناجح
+                    clsGlobal.CurrentUser = _user;
+                    _ProgressBarLogin(true);
                     IsLogin = true;
-                    if (chRemberMe.Checked) // إذا مفعل خيار التذكر
+
+                    if (chRemberMe.Checked)
                     {
-                        clsGlobal.RememberUsernameAndPassword(TboxUserName.Text.Trim(), maskedTboxPasswerd.Text.Trim()); // نخزن البيانات
+                        clsGlobal.RememberUsernameAndPassword(TboxUserName.Text.Trim(), maskedTboxPasswerd.Text.Trim());
                     }
                     else
                     {
-                        clsGlobal.RememberUsernameAndPassword("", ""); // نفرغها
+                        clsGlobal.RememberUsernameAndPassword("", "");
                     }
                 }
                 return IsLogin;
             }
             else
             {
-                _CheckLockScreen(); // إذا ما موجود المستخدم نزيد العداد
+                // إذا كان المستخدم نال أو الرمز غلط
+                _CheckLockScreen();
                 return false;
             }
         }
-
         // محاولة تسجيل الدخول
         private bool _IsLoginUser()
         {

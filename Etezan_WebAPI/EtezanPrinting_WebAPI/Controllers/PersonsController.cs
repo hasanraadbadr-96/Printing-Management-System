@@ -1,5 +1,6 @@
 ﻿using BusinessLayeres; // استدعاء المكتبة المشتركة اللي سويتها
 using EtezanPrinting_Shared.PersonDTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,6 +10,7 @@ namespace EtezanPrinting_WebAPI.Controllers
 {
     [Route("api/Person")]
     [ApiController]
+    [Authorize] // <--- أضف هذا السطر هنا
     public class PersonsController : ControllerBase
     {
 
