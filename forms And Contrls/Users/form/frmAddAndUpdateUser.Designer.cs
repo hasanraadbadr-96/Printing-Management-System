@@ -47,10 +47,12 @@
             this.tpPersonInfo1 = new System.Windows.Forms.TabControl();
             this.tpPersonInfo = new System.Windows.Forms.TabPage();
             this.btNext = new System.Windows.Forms.Button();
-            this.ctrlPersonCardWithFilter1 = new ETEZAN2024.forms_And_Contrls.Persons.Control.ctrlPersonCardWithFilter();
             this.tpLoginInfo = new System.Windows.Forms.TabPage();
             this.tbUserName = new System.Windows.Forms.TextBox();
             this.lbAddAndEdit = new System.Windows.Forms.Label();
+            this.cmbPermission_type = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.ctrlPersonCardWithFilter1 = new ETEZAN2024.forms_And_Contrls.Persons.Control.ctrlPersonCardWithFilter();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderUser)).BeginInit();
             this.tpPersonInfo1.SuspendLayout();
             this.tpPersonInfo.SuspendLayout();
@@ -153,7 +155,7 @@
             this.chkboxActive.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkboxActive.Font = new System.Drawing.Font("mohammad bold art 1", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
             this.chkboxActive.ForeColor = System.Drawing.Color.White;
-            this.chkboxActive.Location = new System.Drawing.Point(483, 293);
+            this.chkboxActive.Location = new System.Drawing.Point(491, 335);
             this.chkboxActive.Name = "chkboxActive";
             this.chkboxActive.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.chkboxActive.Size = new System.Drawing.Size(74, 33);
@@ -285,22 +287,13 @@
             this.btNext.UseVisualStyleBackColor = true;
             this.btNext.Click += new System.EventHandler(this.btNext_Click);
             // 
-            // ctrlPersonCardWithFilter1
-            // 
-            this.ctrlPersonCardWithFilter1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ctrlPersonCardWithFilter1.BackgroundImage")));
-            this.ctrlPersonCardWithFilter1.FillterEnable = true;
-            this.ctrlPersonCardWithFilter1.Location = new System.Drawing.Point(-4, -4);
-            this.ctrlPersonCardWithFilter1.Name = "ctrlPersonCardWithFilter1";
-            this.ctrlPersonCardWithFilter1.ShowAddPersn = true;
-            this.ctrlPersonCardWithFilter1.Size = new System.Drawing.Size(844, 632);
-            this.ctrlPersonCardWithFilter1.TabIndex = 4;
-            this.ctrlPersonCardWithFilter1.Load += new System.EventHandler(this.ctrlPersonCardWithFilter1_Load);
-            // 
             // tpLoginInfo
             // 
             this.tpLoginInfo.BackColor = System.Drawing.Color.White;
             this.tpLoginInfo.BackgroundImage = global::ETEZAN2024.Properties.Resources.add_user1;
             this.tpLoginInfo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.tpLoginInfo.Controls.Add(this.label4);
+            this.tpLoginInfo.Controls.Add(this.cmbPermission_type);
             this.tpLoginInfo.Controls.Add(this.btaCansel2);
             this.tpLoginInfo.Controls.Add(this.btnSaveUserInfo);
             this.tpLoginInfo.Controls.Add(this.lbUserID);
@@ -344,6 +337,42 @@
             this.lbAddAndEdit.TabIndex = 4;
             this.lbAddAndEdit.Text = "اضافة مستخدم";
             this.lbAddAndEdit.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // cmbPermission_type
+            // 
+            this.cmbPermission_type.Font = new System.Drawing.Font("Geometr415 Blk BT", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbPermission_type.FormattingEnabled = true;
+            this.cmbPermission_type.Location = new System.Drawing.Point(467, 263);
+            this.cmbPermission_type.Name = "cmbPermission_type";
+            this.cmbPermission_type.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.cmbPermission_type.Size = new System.Drawing.Size(121, 24);
+            this.cmbPermission_type.TabIndex = 29;
+            this.cmbPermission_type.SelectedIndexChanged += new System.EventHandler(this.cmbPermission_type_SelectedIndexChanged);
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.Font = new System.Drawing.Font("mohammad bold art 1", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(178)));
+            this.label4.ForeColor = System.Drawing.Color.Gray;
+            this.label4.Location = new System.Drawing.Point(662, 263);
+            this.label4.Name = "label4";
+            this.label4.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.label4.Size = new System.Drawing.Size(173, 29);
+            this.label4.TabIndex = 30;
+            this.label4.Text = "  صلاحية المستخدم :";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // ctrlPersonCardWithFilter1
+            // 
+            this.ctrlPersonCardWithFilter1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("ctrlPersonCardWithFilter1.BackgroundImage")));
+            this.ctrlPersonCardWithFilter1.FillterEnable = true;
+            this.ctrlPersonCardWithFilter1.Location = new System.Drawing.Point(-4, -4);
+            this.ctrlPersonCardWithFilter1.Name = "ctrlPersonCardWithFilter1";
+            this.ctrlPersonCardWithFilter1.ShowAddPersn = true;
+            this.ctrlPersonCardWithFilter1.Size = new System.Drawing.Size(844, 632);
+            this.ctrlPersonCardWithFilter1.TabIndex = 4;
+            this.ctrlPersonCardWithFilter1.Load += new System.EventHandler(this.ctrlPersonCardWithFilter1_Load);
             // 
             // frmAddAndUpdateUser
             // 
@@ -394,5 +423,7 @@
         private System.Windows.Forms.Label lbAddAndEdit;
         private Persons.Control.ctrlPersonCardWithFilter ctrlPersonCardWithFilter1;
         private System.Windows.Forms.Button btNext;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cmbPermission_type;
     }
 }

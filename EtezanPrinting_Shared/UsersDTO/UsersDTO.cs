@@ -1,15 +1,8 @@
-﻿
-
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-
 using System.Text;
 
-
-
 namespace EtezanPrinting_Shared.UsersDTO
-
 {
     public class UsersDTO
     {
@@ -21,13 +14,20 @@ namespace EtezanPrinting_Shared.UsersDTO
         public int UsersPermissionID { get; set; } // الصلاحيات (Admin, User, etc)
         public bool IsActive { get; set; } // هل الحساب شغال لو معطل
 
+        // --- [إضافة محمد أبو هدهود]: حقول باج التجديد الجديدة بداخل الوصل الرئيسي ---
+        public string RefreshTokenHash { get; set; } // تشفير باج التجديد
+        public DateTime? RefreshTokenExpiresAt { get; set; } // تاريخ انتهاء الصلاحية
+        public DateTime? RefreshTokenRevokedAt { get; set; } // تاريخ الحرق أو تسجيل الخروج
+        // --------------------------------------------------------------------------
+
         // 2. الكونستركتر الافتراضي (Default Constructor)
         // نحتاجه للـ Serializer بالـ API حتى يكدر يقرأ البيانات
         public UsersDTO() { }
 
         // 3. كونستركتر التمرير (Parameterized Constructor)
         // نستخدمه بالـ Business Layer حتى نترس البيانات بسرعة
-        public UsersDTO(int userID, string userName, string password, int personID, int permissionID, bool isActive)
+        public UsersDTO(int userID, string userName, string password, int personID, int permissionID, bool isActive,
+            string refreshTokenHash = null, DateTime? expiresAt = null, DateTime? revokedAt = null)
         {
             this.UserID = userID;
             this.UserName = userName;
@@ -35,6 +35,11 @@ namespace EtezanPrinting_Shared.UsersDTO
             this.PersonID = personID;
             this.UsersPermissionID = permissionID;
             this.IsActive = isActive;
+
+            // تعبئة بيانات باج التجديد
+            this.RefreshTokenHash = refreshTokenHash;
+            this.RefreshTokenExpiresAt = expiresAt;
+            this.RefreshTokenRevokedAt = revokedAt;
         }
     }
 }

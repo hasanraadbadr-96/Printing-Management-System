@@ -73,16 +73,37 @@ namespace ETEZAN2024.forms_And_Contrls.Users.form // مساحة الاسماء �
             tbConfirmPasswerd.Text = _clsUsers.Password; // نعرض تاكيد الباسوورد
             chkboxActive.Checked = _clsUsers.isActive; // نعرض حالة التفعيل
             ctrlPersonCardWithFilter1.LoadPersonInfo(_clsUsers.PersonID); // نعرض بيانات الشخص المرتبط
+                                                                          // تأكد من إضافة هذا السطر حتى يختار الصلاحية المخزونة بالداتابيز
+            cmbPermission_type.SelectedValue = _clsUsers.PermissionID;
+
         }
 
+        private void _FillPermissionsComboBox()
+        {
+            DataTable dtPermissions = clsUsers.GetAllPermissions();
+
+            if (dtPermissions != null)
+            {
+                cmbPermission_type.DataSource = dtPermissions;
+                cmbPermission_type.DisplayMember = "permission_type"; // الاسم اللي يظهر
+                cmbPermission_type.ValueMember = "permissionID";     // الرقم اللي ينخزن بالخلفية
+            }
+        }
         private void frmAddAndUpdateUser_Load(object sender, EventArgs e) // حدث تحميل الفورم
         {
             _ResetDefualtValues(); // نهيئ القيم الافتراضية
+                                   // 1. أول خطوة لازم تترس الكومبوبوكس بالبيانات من الداتابيز
+            _FillPermissionsComboBox();
+
             if (_mode == enMode.Update) // اذا كان تعديل
             {
                 _LoadData(); // نجيب البيانات
             }
             ctrlPersonCardWithFilter1.FoucsTextBoxFilterPersonValue(); // نخلي الفوكس على مربع البحث
+
+            // سطر واحد يخلي الكمبوبوكس يختار الصلاحية الصح بناءً على رقمها
+            cmbPermission_type.SelectedValue = _clsUsers.PermissionID;
+
         }
 
         private void tbUserName_Validating(object sender, CancelEventArgs e) // التحقق من اسم المستخدم
@@ -183,8 +204,8 @@ namespace ETEZAN2024.forms_And_Contrls.Users.form // مساحة الاسماء �
             _clsUsers.Password = tbConfirmPasswerd.Text; // نخزن التاكيد
             _clsUsers.isActive = chkboxActive.Checked; // نخزن حالة التفعيل
             _clsUsers.PersonID = ctrlPersonCardWithFilter1.PersonID; // نخزن رقم الشخص المرتبط
-            _clsUsers.PermissionID = 1; // نخلي صلاحية افتراضية
-            if (_clsUsers.Save()) // اذا الحفظ نجح
+                                                                     // نأخذ الـ Value (اللي هو الـ ID) من الكمبوبوكس
+            _clsUsers.PermissionID = (int)cmbPermission_type.SelectedValue; if (_clsUsers.Save()) // اذا الحفظ نجح
             {
                 lbUserID.Text = _clsUsers.UserID.ToString(); // نعرض رقم المستخدم
                 lbAddAndEdit.Text = "تحديث معلومات المستخدم"; // نغير العنوان
@@ -244,6 +265,11 @@ namespace ETEZAN2024.forms_And_Contrls.Users.form // مساحة الاسماء �
             // يعني أول ما الفورم يصير فعال، المؤشر (Cursor) يروح على TextBox الخاص بالبحث عن الشخص حتى المستخدم يقدر يكتب مباشرة بدون ما ينقر الماوس.
 
             ctrlPersonCardWithFilter1.FoucsTextBoxFilterPersonValue(); // نستدعي دالة داخل الكنترول تخلي التركيز على TextBox الخاص بالبحث.
+        }
+
+        private void cmbPermission_type_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

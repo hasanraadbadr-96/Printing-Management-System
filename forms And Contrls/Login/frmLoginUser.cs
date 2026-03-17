@@ -51,29 +51,34 @@ namespace ETEZAN2024 // مساحة الأسماء الرئيسية للمشرو�
 
             log = new clsLoginLogs();
 
+            // نستخدم الأسامي الجديدة اللي عرفناها بداخل البزنس (الاحترافية)
             log.username = clsGlobal.CurrentUser.UserName;
-
-            // فحص الـ PersonInfo: أحياناً يكون نال إذا ما مسوي له Find بالبزنس
-            if (clsGlobal.CurrentUser.PersonInfo != null)
-            {
-                log.phone_number = clsGlobal.CurrentUser.PersonInfo.phone_number;
-            }
-            else
-            {
-                log.phone_number = "N/A"; // قيمة افتراضية حتى لا يضرب
-            }
-
-            log.LoginPermissionCode = "77";
-            log.UsersPermissionID = 2;
-            log.loginDate = DateTime.Now;
             log.usersId = clsGlobal.CurrentUser.UserID;
+            log.loginDate = DateTime.Now;
+
+            // --- [التحديث الاحترافي لمحتوى اللوك] ---
+
+            // بدل رقم الصلاحية القديم، نسجل نوع العملية
+            log.ActionType = "Login";
+
+            // بدل رقم الـ 77، نسجل حالة العملية
+            log.Status = "Success";
+
+            // جلب الـ IP الحقيقي للجهاز (أهم إضافة للمراقبة)
+            log.IPAddress = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName())
+                            .AddressList.FirstOrDefault(ip => ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)?
+                            .ToString() ?? "127.0.0.1";
+
+            // ملاحظة: الـ FailureReason نخليه فارغ لأننا بداخل دالة النجاح
+            log.FailureReason = "Desktop Application Access";
+
+            // ----------------------------------------
 
             if (!log.Save())
             {
-                MessageBox.Show("لم يتم حفظ عملية تسجيل الدخول", "خطأ", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("لم يتم حفظ عملية تسجيل الدخول في سجلات المراقبة", "تنبيه", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
         // رسالة ترحيب
         private void _Noitifcatoin_WelcomeUser()
         {

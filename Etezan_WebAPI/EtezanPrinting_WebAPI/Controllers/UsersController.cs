@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections;
+using System.Data;
+using System.Xml.Linq;
 
 namespace EtezanPrinting_WebAPI.Controllers
 {
@@ -15,42 +17,39 @@ namespace EtezanPrinting_WebAPI.Controllers
         UsersDTO usersDTO = new UsersDTO();
         clsUsers users = new clsUsers();
 
-
-        [HttpGet ("All" ,Name = "GetAllUsersList")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-
-        public ActionResult<IEnumerable<UsersDTO>> GetAllUsersList() // (تصحيح: ضفنا قوس الإغلاق للـ IEnumerable)
+       
+    [HttpGet("All", Name = "GetAllUsersList")]
+    [Authorize(Roles = "SuperAdmin")] // هنا القفل: إذا التوكن ما بيه SuperAdmin راح يعطي 403 فوراً
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status403Forbidden)] // ضفنا هذا الرد المتوقع
+    public ActionResult<IEnumerable<UsersDTO>> GetAllUsersList()
         {
+            // لزيادة الأمان (كود المحترفين): نشيك داخل الدالة أيضاً
+            if (!User.IsInRole("SuperAdmin"))
+            {
+                return Forbid("دخول ممنوع! يجب أن تكون SuperAdmin لعرض هذه البيانات."); // طرد يدوي إذا عبر من الـ Attribute
+            }
+
             try
             {
-                // "يا مدير البزنس، روح للمخزن وجيب لي كل اليوزرات اللي عندك وخليهم بمتغير user"
-                var user = users.GetAllUsersList();
-
-                // هنا نتحقق: إذا المدير رجع لنا سلة فارغة (null) أو ما بيها ولا اسم (!user.Any)
-                if (user == null || !user.Any())
-                {
-                    // نرجع جواب للزبون: "عيني بحثنا وما لكينا أي مستخدم" (كود 404)
-                    return NotFound("قائمة المستخدمين فارغة");
-                }
-
-                // إذا عبرنا الفحص، يعني السلة مليانة.. نكول للزبون: "عاشت إيدك هاي القائمة" (كود 200)
-                return Ok(user);
+                var userList = users.GetAllUsersList();
+                if (userList == null || !userList.Any()) return NotFound("قائمة المستخدمين فارغة");
+                return Ok(userList);
             }
             catch (Exception ex)
             {
-                // إذا صار انفجار بالكود أو السيرفر طفى، نرجع رسالة اعتذار رسمية (كود 500)
-                // ونكول له شنو نوع الغلط حتى المبرمج (أبو المطبعة) يعرف يصلحه
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
 
+        // باقي الدوال (Add, Update, Delete) تبقى عليها [Authorize(Roles = "SuperAdmin")] كما هي في كودك
 
-        // "FindBy/{id}" تعني الرابط راح يكون api/Users/FindBy/29
+
+
         [HttpGet("FindBy/{id}", Name = "GetUserByID")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)] // ضفنا هذا لأننا قد نمنع المستخدم
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<UsersDTO> GetUserByID(int id)
@@ -61,19 +60,37 @@ namespace EtezanPrinting_WebAPI.Controllers
                 return BadRequest("من فضلك ادخل قيمة صحيحة اكبر من صفر");
             }
 
+            // --- [الحارس الأمني المحترف] ---
+            // نسحب المعرف مالت الشخص اللي جاي يطلب البيانات من التوكن
+            var currentUserIdClaim = User.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier);
+
+            if (currentUserIdClaim == null) return Unauthorized(); // إذا ماكو توكن أصلاً
+
+            int currentUserId = int.Parse(currentUserIdClaim.Value);
+            bool isSuperAdmin = User.IsInRole("SuperAdmin");
+
+            // القاعدة: إذا مو سوبر أدمن، وما جاي يطلب الـ ID مالته نفسه.. اطرده!
+            if (!isSuperAdmin && currentUserId != id)
+            {
+                return StatusCode(403, new
+                {
+                    message = "عذراً، لا يمكنك عرض بيانات مستخدم آخر. هذه الصلاحية للمدراء فقط."
+                });
+            }
+            // ------------------------------
+
             try
             {
                 // 2. نبحث عن المستخدم في طبقة البزنس
                 var user = clsUsers.FindUserById(id);
 
-                // 3. الحارس (Guard Clause): إذا طلع null نرجع 404 فوراً ونطلع من الدالة
+                // 3. الحارس (Guard Clause): إذا طلع null نرجع 404 فوراً
                 if (user == null)
                 {
-                    // هذي الرسالة اللي ردتها يا حسن، راح تطلع هسة بالـ Swagger بلون أزرق (404)
                     return NotFound($"لم يتم العثور على المستخدم رقم معرفه {id}");
                 }
 
-                // 4. فقط وفقط إذا لگيناه (يعني مو null)، نطلب الـ DTO
+                // 4. فقط وفقط إذا لگيناه، نطلب الـ DTO
                 return Ok(user.UsersDTO);
             }
             catch (Exception ex)
@@ -84,7 +101,7 @@ namespace EtezanPrinting_WebAPI.Controllers
         }
 
 
-
+        [Authorize(Roles = "SuperAdmin")] // الحذف حصراً للسوبر أدمن
         [HttpPost("ADD", Name = "AddNewUser")] // 1. حولناه إلى Post لأننا نرسل بيانات
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -124,6 +141,7 @@ namespace EtezanPrinting_WebAPI.Controllers
         }
 
 
+        [Authorize(Roles = "SuperAdmin")] // الحذف حصراً للسوبر أدمن
         // 1. تحديد نوع الطلب: استخدمنا HttpPost (أو HttpPut) لأننا جاي نرسل بيانات جديدة للتعديل
         [HttpPut("UpdateBy/{ID}", Name = "UpdateUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -185,7 +203,7 @@ namespace EtezanPrinting_WebAPI.Controllers
         }
 
 
-
+        [Authorize(Roles = "SuperAdmin")] // الحذف حصراً للسوبر أدمن
         // 1. تحديد نوع الطلب: HttpDelete هو الأنسب لعمليات الحذف (المقّص)
         [HttpDelete("DeleteBy/{ID}", Name = "DeleteUser")]
         [ProducesResponseType(StatusCodes.Status200OK)]

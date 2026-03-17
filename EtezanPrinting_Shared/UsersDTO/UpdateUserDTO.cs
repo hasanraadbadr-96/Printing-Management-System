@@ -13,19 +13,31 @@ namespace EtezanPrinting_Shared.UsersDTO
         public int UsersPermissionID { get; set; } // الصلاحيات (Admin, User, etc)
         public bool IsActive { get; set; } // هل الحساب شغال لو معطل
 
+        // --- [إضافة محمد أبو هدهود]: حقول باج التجديد المطلوبة للتحديث ---
+        public string RefreshTokenHash { get; set; } // تشفير باج التجديد
+        public DateTime? RefreshTokenExpiresAt { get; set; } // وكت انتهاء باج التجديد
+        public DateTime? RefreshTokenRevokedAt { get; set; } // وكت حرق الباج (Logout)
+        // -------------------------------------------------------------
+
         // 2. الكونستركتر الافتراضي (Default Constructor)
         // نحتاجه للـ Serializer بالـ API حتى يكدر يقرأ البيانات
         public UpdateUserDTO() { }
 
         // 3. كونستركتر التمرير (Parameterized Constructor)
         // نستخدمه بالـ Business Layer حتى نترس البيانات بسرعة
-        public UpdateUserDTO( string userName, string password, int personID, int permissionID, bool isActive)
+        public UpdateUserDTO(string userName, string password, int personID, int permissionID, bool isActive,
+            string refreshTokenHash = null, DateTime? expiresAt = null, DateTime? revokedAt = null)
         {
             this.UserName = userName;
             this.Password = password;
             this.PersonID = personID;
             this.UsersPermissionID = permissionID;
             this.IsActive = isActive;
+
+            // تعبئة بيانات الباج الجديدة
+            this.RefreshTokenHash = refreshTokenHash;
+            this.RefreshTokenExpiresAt = expiresAt;
+            this.RefreshTokenRevokedAt = revokedAt;
         }
     }
 }
