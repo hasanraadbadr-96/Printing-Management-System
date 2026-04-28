@@ -1,0 +1,112 @@
+<!DOCTYPE html> <!-- نحدد نوع المستند HTML5 -->
+<html lang="ar" dir="rtl"> <!-- لغة عربي واتجاه من اليمين لليسار -->
+<head>
+<meta charset="UTF-8"> <!-- يدعم العربي -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- يخلي الصفحة responsive -->
+<title>Login</title> <!-- عنوان الصفحة -->
+
+<!-- خط من Google -->
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi+Fun:wght@400..700&display=swap" rel="stylesheet">
+
+<style>
+
+/* تنسيق عام للصفحة */
+body {
+    margin: 0; /* نشيل الفراغات الافتراضية */
+    font-family: 'Reem Kufi Fun', sans-serif; /* الخط */
+    background: #f5f6fa; /* لون خلفية هادي */
+    display: flex; /* نخلي العناصر بالنص */
+    justify-content: center; /* توسيط افقي */
+    align-items: center; /* توسيط عمودي */
+    height: 100vh; /* ياخذ ارتفاع الشاشة كله */
+}
+
+/* صندوق تسجيل الدخول */
+.login-container {
+    background: white; /* خلفية بيضاء */
+    width: 350px; /* عرض ثابت */
+    padding: 30px; /* مسافة داخلية */
+    border-radius: 12px; /* حواف ناعمة */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08); /* ظل خفيف */
+    text-align: center; /* توسيط النص */
+}
+
+/* اللوجو */
+.logo {
+    width: 80px; /* حجم مناسب */
+    margin-bottom: 10px; /* مسافة تحت */
+}
+
+/* العنوان */
+.title {
+    font-size: 22px; /* حجم النص */
+    margin-bottom: 20px; /* مسافة */
+}
+
+/* كلمة مطبعة لونها خفيف */
+.title span {
+    color: #999;
+}
+
+/* الحقول */
+input {
+    width: 100%; /* ياخذ العرض كامل */
+    padding: 12px; /* مساحة داخلية */
+    margin-bottom: 15px; /* مسافة بين الحقول */
+    border: 1px solid #ddd; /* بوردر خفيف */
+    border-radius: 8px; /* حواف */
+    font-family: inherit; /* نفس الخط */
+}
+
+/* زر الدخول */
+button {
+    width: 100%; /* عرض كامل */
+    padding: 12px; /* حجم مناسب */
+    background: #3e58a1; /* لون رئيسي */
+    color: white; /* نص ابيض */
+    border: none; /* بدون بوردر */
+    border-radius: 8px; /* حواف */
+    cursor: pointer; /* شكل اليد */
+    font-size: 16px; /* حجم النص */
+    transition: 0.3s; /* حركة ناعمة */
+}
+
+/* عند المرور على الزر */
+button:hover {
+    background: #2f447c; /* لون أغمق */
+}
+
+</style>
+</head>
+
+<body>
+
+<main> <!-- المحتوى الرئيسي -->
+
+    <div class="login-container"> <!-- كارت تسجيل الدخول -->
+
+        <img src="images/Line.png" class="logo"> <!-- اللوجو -->
+
+        <div class="title">
+            <span>مطبعة</span> الاتزان <!-- اسم المشروع -->
+        </div>
+
+        <form action="dashboard.html"> <!-- فورم ينقل للداشبورد -->
+
+            <input type="email" placeholder="البريد الإلكتروني" required> <!-- ايميل -->
+
+            <input type="password" placeholder="كلمة المرور" required> <!-- باسورد -->
+
+            <button type="submit">
+                تسجيل الدخول <!-- زر الدخول -->
+            </button>
+
+
+
+        </form>
+
+
+</main>
+
+</body>
+</html>
